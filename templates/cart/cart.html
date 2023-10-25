@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{%load static%}
+{% block title %}
+Cart
+{% endblock %}
+{% block content %}
+<div style="min-height: 70vh;">
+    <div class="card col-12  col-lg-8 mx-auto mb-3" >
+        <div class='container text-center fw-bold mt-2 border-bottom pb-2' id="item-quantity">
+            {% if cart|length > 1 %}
+                {{cart|length}} items
+            {%elif cart|length > 0 %}
+                {{cart|length}} item
+            {% else%}
+                Cart is empty
+            {%endif%}
+        
+        </div>
+        <div class="card-body py-0  ">
+        {% for item in items %}
+            <div class='row border-bottom' id="{{ item.id }}">
+                <div class="col-3 pb-1 pt-2">
+                    <div class="category-image">
+                        <img src="{{ item.picture.url }}" class="w-100"/>
+                    </div> 
+                </div>
+                <div class="col-8 border-start pb-2 pt-2">
+                    <a href="{% url 'main:product' item.category.slug item.id %}" class="text-decoration-none"><h4 class='text-center text-secondary'>{{ item.name }}</h4></a>
+                    <h5 class='text-center text-secondary'>${{ item.price }}</h5>
+                    <button class="btn btn-secondary  ms-4 mt-md-4 remove_button" data-url='{% url "cart:remove_item" %}' data-id="{{ item.id }}">remove</button>
+                    <div class="d-inline-block mt-md-4 float-end">
+                        <div>
+                            <button type="button" value="-" data-url='{% url "cart:decrease_item" %}' data-id="{{ item.id }}" class="btn btn-outline-secondary dec_button">-</button>
+                            <span type="number"  max="{{item.stock}}" value="1" id="{{ item.id }}s" class=" text-center">{{item.amount}}</span>
+                            <button type="button" value="+" class="btn btn-outline-secondary add_button" data-url='{% url "cart:add_item" %}' data-id="{{ item.id }}" data-qt="{{item.stock}}" >+</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {%endfor%}
+        </div>
+        {% if cart|length > 0 %}
+        <div class='card-footer row ms-0 me-0' >
+            <div class='col-6 my-auto' id="total">
+                Subtotal: {{cart.total_price}}
+            </div>
+            <div class='col-6'>
+                <a class="text-decoration-none btn btn-outline-secondary float-end" href="{% url 'checkout:checkout'%}">Checkout</a>
+            </div>
+            
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+
+<script type="module" src="{% static 'cart/script/cart.js' %}"></script> 
+{% endblock %}

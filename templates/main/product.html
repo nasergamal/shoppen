@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title%}
+{{ product.name }}
+{% endblock %}
+
+
+{% block content %}
+{%csrf_token%}
+<div class="py-4">
+    <div class='container'>
+        <div class="row">
+            <div class="col-md-12 mb-3">
+                <div class="card shadow">
+                    <div class="card-body">
+                        <div class="row"> 
+                            <div class="col-md-4">
+                                <img src="{{ product.picture.url }}" class="w-100"/>
+                            </div>
+                            <div class="col-md-8">
+                                <h2 class="mb-1">{{ product.name }} </h2>
+                                <hr>
+                                <label class="fw-bold"> price: ${{ product.price }}</label>
+                                <hr>
+                                    {% if product.stock > 0 %}
+                                    <label class="badge bg-secondary mb-3 mt-2">
+                                        <h6>{{product.stock}} left </h6>
+                                    {% else%}
+                                    <label class="badge bg-danger mb-3 mt-2">
+                                        <h6>out of stock</h6>
+                                    {% endif %}
+                                </label>
+                                <br>
+                                
+                                <div class='row'>
+                                {% if product.stock > 0 %}
+                                <label class="fw-bold">Amount</label>
+                                    <div class='mb-3 col-3'>
+                                        
+                                        <select id="amount" class="form-select" aria-label="Default select example">
+                                            {% for i in amount|slice:":5" %}
+                                            <option value="{{i}}">{{i}}</option>
+                                            {%endfor%}
+                                        </select>  
+                                    </div>
+                                    <div class='mb-3 col-5'>
+                                    <button type="button" class="btn btn-secondary me-3 col-12 add_button" data-url='{% url "cart:add_item" %}' data-id="{{ product.id }}" data-qt="{{product.stock}}" class="add-cart">Add to cart</button>
+                                    </div>    
+                                {%endif%}
+                                <div class='mb-3 col-4'>
+                                    <button class="btn btn-success me-3">WishList</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <hr>
+                            <h2>Description</h2>
+                            <p> {{product.description}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>       
+            
+        </div>
+    </div>
+</div>
+
+{% comment %} <div class="">
+                                            <button class="input-group-text button-minus">+</button>
+                                            <input  type="number" class="form-control quantity-field  text-center" id="amount-added" value="1"> 
+                                            <button class="input-group-text increment-btn " data-field="quantity">-</button>
+                                        </div>
+                                    
+                                        <br>
+                                        {% if product.stock > 0 %}
+                                        <button class="btn btn-secondary me-3 float-start" data-id="{{ product.id }}" id="cart-add">Add to cart</button>    
+                                        {% endif %}
+                                        <button class="btn btn-danger me-3 float-start">WishList</button> {% endcomment %}
+            {% comment %} {% for item in products %}
+                <div class="col-md-4 mb-3">
+                    <div class="card h-100">
+                        <a href='#' class="text-decoration-none">
+                            <div class="card-body">
+                                <div class="category-image">
+                                    
+                                </div> 
+                                <h4 class='text-center text-secondary'>{{ item.name }}</h4>
+                                <h5 class='text-center text-secondary'>{{ item.price }}</h5>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+ {% endcomment %}
+{% comment %} <script>
+    // $(document).on('click', '#add', function (e) {
+        $(document).ready(() => {
+            $('#add').on('click', function(e) {
+                amount = $('#amount option:selected').text();
+        
+                if (amount === undefined) {
+                    amount = 1;
+                }
+                console.log(amount)
+                alert(amount)
+            })
+        })
+</script> {% endcomment %}
+<script type="module" src="{% static 'cart/script/cart.js' %}"></script> 
+{% endblock content %}

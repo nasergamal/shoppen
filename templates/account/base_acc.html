@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="py-4" style='min-height: 80vh;'>
+    <div class='container '>
+        <div class='row justify-content-center '> 
+            <div class="col-12 col-md-7 col-lg-4 mb-4 text-center card shadow pt-3 mx-auto ps-0 pe-0">      
+                        {% block acc %}
+                        {% endblock acc %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

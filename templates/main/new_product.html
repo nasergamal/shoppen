@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% load static %}
+{% block title %}
+New product
+{% endblock %}
+{% block content %}
+<div style="min-height: 70vh;">
+    <div class="col-sm-12 col-lg-5 mb-4 text-center card shadow pt-3 mx-auto ps-0 pe-0"> 
+        <div class='container fw-bold mt-2 border-bottom pb-2 mb-3'>
+        <h3 class="mb-4">New product</h3>
+        </div>
+        <div class="card-body" id='subcat' data-url="{% url 'main:get_sub' %}">
+            <form class="new_item" method="POST" action="" class="needs-validation" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% for field in form %}
+                <div class="row mb-2 ps-5">
+                    <div class="text-start">
+                        {{ field.label_tag }}
+                    {% if field.name != 'picture'%}
+                        <div class=" mt-2">
+                        {% render_field field class="col-10 mt-2" %}
+                    {%else%}
+                        <div class=" mt-2 d-inline-block w-100">
+                        {% render_field field class="ms-3 mt-2 d-inline-block w-100 text-wrap" %}
+                    {%endif%}
+                        </div>
+                
+                    </div>  
+                </div>
+                {% endfor %}
+                {% if redirect_field_value %}
+                <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+                {% endif %}
+                <button class="btn btn-outline-secondary mb-4 mt-2" type="submit">Add product</button>
+            </form>
+        </div>
+    </div>
+</div>
+<script type="module" src="{% static 'main/script/new_product.js' %}"></script> 
+{% endblock content %}

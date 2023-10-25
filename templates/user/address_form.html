@@ -1,0 +1,68 @@
+{% load widget_tweaks %}
+<div class="row ms-lg-5 ms-2">
+    <div class="form-group col-md-6 row text-start">
+        <label class=" col-form-label">{{form.first_name.label_tag}} *</label>
+        <div class="">
+        {{ form.first_name|add_class:'w-100' }}
+        </div>
+    </div>
+    <div class="form-group col-md-6 row text-start">
+        <label class="col-form-label">{{form.last_name.label_tag}} *</label>
+        <div class="">
+        {{ form.last_name|add_class:'w-100' }}
+        </div>
+    </div>
+</div>
+<div class="row ms-lg-5 ms-2">
+    <div class="form-group col-md-6 row text-start">
+        <label class=" col-form-label">{{form.phone_number.label_tag}} *</label>
+        <div class="">
+        {{ form.phone_number }}
+        {% for error in form.address.errors %}
+        <span class="text-danger mt-2 text-wrap">
+        {{ error }}
+        </span>
+        {% endfor %}
+        </div>
+    </div>
+    <div class="form-group col-md-6 row text-start">
+        <label class="col-form-label">{{form.phone_number2.label_tag}}</label>
+        <div class="">
+        {{ form.phone_number2 }}
+        </div>
+    </div>
+</div>
+<div class="row ms-lg-5 ms-2">
+    <div class="form-group text-start">
+        <label class=" col-form-label">{{form.address.label_tag}} *</label>
+        <div class=" me-md-5 me-4">
+        {{ form.address|add_class:'w-100' }}
+        </div>
+        {% for error in form.address.errors %}
+        <span class="text-danger mt-2 text-wrap">
+        {{ error }}
+        </span>
+        {% endfor %}
+    </div>
+</div>
+<div class="row ms-lg-5 ms-2">
+    <div class="form-group text-start">
+        <label class="col-form-label">{{form.additional_info.label_tag}}</label>
+        <div class="me-md-5 me-4">
+        {{ form.additional_info|add_class:'w-100' }}
+        </div>
+    </div>
+    {% for error in form.additional_info.errors %}
+        <span class="text-danger mt-2 text-wrap">
+        {{ error.msg.3 }}
+        </span>
+        {% endfor %}
+</div>
+{% if form.errors%}
+<div class="ms-lg-5 ms-2 mt-2 text-danger">
+    {{ form.errors }}
+</div>
+{% endif %}
+{% if redirect_field_value %}
+<input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+{% endif %}

@@ -1,0 +1,19 @@
+{% extends 'account/base_acc.html' %}
+{% block title %}Signup{% endblock %}
+{% block acc %}
+<h3 class="mb-4">Sign up</h3>
+<div class="card-body">
+    <form class="login" method="POST" action="{% url 'account_signup' %}" class="needs-validation">
+        {% include 'account/_render_form.html' %}
+        {% if redirect_field_value %}
+        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+        {% endif %}
+        <button type="submit" class="btn btn-outline-secondary mb-4 mt-2">Sign up </button>
+    </form>
+</div>
+<div class="card-footer pt-3">
+    <p>Already have an account?
+        <a href="{{ login_url }}" class="text-secondary">Sign in</a></p>
+        
+</div>
+{% endblock acc %}

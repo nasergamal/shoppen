@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title%}
+{{ category.name }}
+{% endblock %}
+
+
+{% block content %}
+{%csrf_token%}
+<div class='container'>
+    <div class="row">
+        <h1 class="mb-5"> {{ category.name  }} </h1>
+        <div class="row">
+            {% for item in products %}
+                <div class="col-md-4 mb-3">
+                    <div class="card h-100 shadow">
+                        <a href="{% url 'main:product' item.category.slug item.id %}" class="text-decoration-none card-body">
+                            <div class="">
+                                <div class="category-image text-center" >
+                                    <img src="{{ item.picture.url }}" class="img-fluid w-100" style="max-width: 300px; object-fit: contain; max-height: 300px"/>
+                                </div> 
+                                <h4 class='text-center text-secondary'>{{ item.name }}</h4>
+                                <h5 class='text-center text-secondary'>${{ item.price }}</h5>   
+                            </div>
+                        </a>
+                        <div class="card-footer bg-white">
+                            {% if item.stock > 0 %}
+                            <button type="button" class="btn btn-secondary me-3 float-start add_button"  data-url='{% url "cart:add_item" %}' data-id="{{ item.id }}" data-qt="{{item.stock}}" class="add-cart">Add to cart</button>
+                            {%else%}
+                            
+                            <label class="badge bg-danger pt-2 pb-1 float-start ">
+                                <h6>
+                                <span class="">out of stock</span>
+                                </h6>
+                            </label>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+<script>
+    //function add_to_cart(item) {
+     //   console.log('here1')
+    //}
+    {% comment %} $('button#add-cart').on('click', function() {
+        
+            console.log('here2')
+        
+    }); {% endcomment %}
+    
+    
+</script>
+<script type='module' defer src="{% static 'cart/script/cart.js' %}"></script> 
+{% endblock content %}

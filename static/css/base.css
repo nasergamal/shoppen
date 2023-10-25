@@ -1,0 +1,27 @@
+
+html {
+    background-color: #f8f9fa;
+}
+#login {
+    display: flex;
+    justify-content: right;
+}
+
+.dropend:hover>.dropdown-menu {
+    display: block;
+    top:0;
+    right:auto;
+    left:100%;
+    margin-top:0;
+    margin-left:.125rem;
+  }
+  
+  .dropend>.dropdown-toggle:active {
+    /*Without this, clicking will make it sticky*/
+      pointer-events: none;
+  }
+@media (max-width: 990px) {
+    .dropdown-item::after {
+        transform: rotate(90deg);
+    } 
+}

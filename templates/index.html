@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %}
+Shoppen
+{% endblock %}
+{% block content %}
+<h1 class='mb-4 '>
+    Welcome to the Shoppen
+</h1>
+<div class='row'>
+{% for category in categories %}
+
+    <div class="col-lg-4 col-md-6  mb-3">
+        <div class="card h-100 shadow">
+            <a href="{% url 'main:category' category.slug %}" class="text-decoration-none card-body">
+                <div class="">
+                    <div class="category-image text-center" >
+                        <img src="{{ category.picture.url }}" class="img-fluid w-100" style=""/>
+                    </div> 
+                </div>
+            </a>
+            <div class='card-footer'>
+                <h4 class='text-center text-secondary'>{{ category.name }}</h4>
+            </div>
+        </div>
+    </div>
+{% endfor %}
+</div>
+{% endblock content %}

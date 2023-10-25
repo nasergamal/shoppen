@@ -1,0 +1,24 @@
+{% extends 'account/base_acc.html' %}
+{% load account socialaccount %}
+{% block title %}Login{% endblock %}
+{% block acc %}
+<h3 class="mb-4">Login</h3>
+<div class="card-body">
+    <form class="login" method="POST" action="{% url 'account_login' %}" class="needs-validation">
+        {% include 'account/_render_form.html' %}
+        {% if redirect_field_value %}
+        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+        {% endif %}
+        <button class="btn btn-outline-secondary mb-4 mt-2" type="submit">Sign in</button>
+    </form>
+    <a class="btn btn-social text-white btn-primary" href="{% provider_login_url 'google'  %}">Sign in with Google</a>
+
+</div>
+<div class="card-footer pt-3 p-0">
+    <p class="mb-2">
+        <a class="button secondaryAction text-secondary" href="{% url 'account_reset_password' %}">Forgot password?</a>
+    </p>
+    <p>Not Registered? please
+        <a href="{{ signup_url }}" class="text-secondary">Sign up</a></p>
+</div>
+{% endblock acc %}

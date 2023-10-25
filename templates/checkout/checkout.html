@@ -1,0 +1,63 @@
+{% extends 'checkout/checkout_base.html '%}
+{% load static %}
+{% block title %}
+Choose address
+{% endblock %}
+{% block address %}
+{% if addressess %}
+    {% for address in addressess%}
+    <div class='card pt-3 mb-4'>
+        <div class='form-check ms-3'>
+            <div class='float-end me-3'>
+                <a class="text-decoration-none btn btn-outline-secondary" href="{% url 'checkout:checkout_edit_address' address.id%}?next={{request.path}}">Edit</a>
+            </div>
+            <input type="radio" class=" form-check-input"
+                name="address"
+                value="{{address.id}}"
+                required>
+            <div class=" text-start">
+            
+            <h6 class=''>{{address.first_name}} {{address.last_name}} </h6>
+            <p>{{address.address}}</p>
+            <p>{{address.phone_number}}</p>
+            </div>
+            
+        </div>
+    </div>
+    {%endfor%}
+    <div class="">
+        <a class="text-decoration-none btn btn-outline-secondary ms-4 " href="{% url 'checkout:checkout_new_address'%}?next={{request.path}}">Add new address</a>
+        <a class="text-decoration-none btn btn-outline-secondary float-end col-2" href="{% url 'checkout:checkout_new_address'%}?next={{request.path}}">Select</a>
+    </div>
+</form>
+{% else%}
+ <h4>No addressess saved <a class="text-decoration-none btn btn-outline-secondary items-align-start" href="{% url 'checkout:checkout_address'%}?next={{request.path}}">add new address</a>
+{%endif%}
+
+{% endblock address %}
+
+{%block payment%}
+<div class='card pt-3 mb-4'>
+    <div class='form-check ms-3'>
+        <input type="radio" class=" form-check-input"
+            name="payment"
+            value="Cash"
+            required>
+        <div class=" text-start">
+        <h6 class=''>Cash</h6>
+        </div>
+    </div>
+</div>
+{% comment %} <div class='card pt-3 mb-4'>
+    <div class='form-check ms-3'>
+        <input type="radio" class="form-check-input"
+            name="payment"
+            value="Credit card"
+            >
+        <div class=" text-start">
+        <h6 class=''>Credit card</h6>
+        </div>
+    </div>
+</div> {% endcomment %}
+
+{%endblock payment%}

@@ -1,0 +1,84 @@
+{% extends 'base.html '%}
+{% load static %}
+{% block content %}
+{% comment %} <form> {% endcomment %}
+<form id="new-order" method="POST" action="{% url 'checkout:create_order' %}" class="needs-validation">
+    {% csrf_token %}
+    <div class='row'>
+        <div class='col-md-8 col-12'>
+            <div style="min-height: 30vh;">
+                <div class=" mb-4  card shadow pt-3 mx-auto ps-0 pe-0"> 
+                    <div class='container fw-bold mt-1 border-bottom pb-2 mb-3'>
+                        <h5 class="text-center" >Address </h5>
+                        <button class="btn btn-secondary dropdown-toggle text-center" data-bs-toggle="collapse" data-bs-target="#address" aria-expanded="true" aria-controls="address">toggle
+                        </button>
+                    </div>
+                    <div class="card-body collapse show" id='address'>
+                        {%block address%}
+                        {% endblock%}
+                    </div>
+                </div>
+            </div>
+
+            <div style="min-height: 30vh;">
+                <div class="mb-4 text-center card shadow pt-3 mx-auto ps-0 pe-0"> 
+                    <div class='container fw-bold mt-1 border-bottom pb-2 mb-3'>
+                    <h5 class="">Payment</h5>
+                    </div>
+                    <div class="card-body" id='payment'>
+                        {% block payment %}
+                        {% endblock payment%}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class='col-md-4 col-12  h-100 '>
+            <div class='card shadow' >
+                <p class='border-bottom mt-2 ps-2'>
+                {% if cart|length > 1 %}
+                {{cart|length}} items
+                {%elif cart|length > 0 %}
+                {{cart|length}} item
+                {%endif%}
+                </p>
+                {% for item in items %}
+                <div class='card-body border-bottom'>
+                    <p>
+                    {{item.name}}
+                    </p>
+                    <div class='row '>
+                        <p class='float-start col-6'>
+                            quantity: {{item.amount}}
+                        </p>
+                        <p class='float-end col-6'>
+                            price: ${% widthratio item.amount  1 item.price %}
+                        </p>
+                    </div>   
+                </div>     
+                {%endfor%}
+                <div class='card-body border-bottom row'>                        
+                        <p class='float-start col-6'>
+                            Shipping fees: 
+                        </p>
+                        <p class='text-end col-3 me-4'>
+                            $10
+                        </p> 
+                </div>    
+            
+                <div class='row ps-2 pt-3 pb-3'>
+                    <h4 class='col-6'>
+                    Total: {{total}}
+                    </h4>
+                    <button class="btn btn-outline-secondary col-5 h-100" id='order-now' type="submit" >Confirm Order</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<script>
+    $('#new-order').on('submit', function () {
+      $('#order-now').addClass('disabled');
+    });
+</script>
+{% comment %} disabled="@(!context.Validate()) {% endcomment %}
+{%endblock content%}

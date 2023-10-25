@@ -1,0 +1,18 @@
+{% extends 'account/base_acc.html' %}
+{% block title %}Verification sent{% endblock %}
+{% block acc %}
+<h3>Verify Your Email Address</h3>
+<div class="card-body">
+    <p class='text-start col-auto'>
+        We have sent an email to you for verification. Follow the link provided to
+        finalize the signup process. If you do not see the verification email in your main inbox,
+        check your spam folder. Please contact us if you do not receive the verification email within a few minutes.
+    </p>
+</div>
+<div class="card-footer">
+    <p>
+        <a href="{{ login_url }}" class="text-secondary">Sign in</a> /
+        <a href="{% url 'main:home' %}" class="text-secondary">Home</a>
+    </p>
+</div>
+{%endblock%}
