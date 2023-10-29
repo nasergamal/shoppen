@@ -6,7 +6,7 @@ from main.models import Product
 
 def view_cart(request):
         data = request.session.get('cart', {})
-        id_list = data.keys() #[i for i in data.keys()]
+        id_list = data.keys()
         items = Product.objects.filter(id__in=id_list)
         for item in items:
             setattr(item, 'amount', data[str(item.id)])

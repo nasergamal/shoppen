@@ -70,8 +70,8 @@
               <p class="mb-0">Welcome {{ user.username }} </p>
             </a>
             <ul class="dropdown-menu" aria-labelledby="defaultDropdown" style="min-width: 8.45rem;">
-              <li><a class="dropdown-item" href="#">Profile</a></li>
-              <li><a class="dropdown-item" href="#">wish list</a></li>
+              <li><a class="dropdown-item" href="{% url 'user:userprofile' %}">Profile</a></li>
+              <li><a class="dropdown-item" href="{% url 'user:wishlist'%}">Wishlist</a></li>
               <li><a class="dropdown-item" href="#"><form method="post" action="{% url 'account_logout' %}">
                 {% csrf_token %}
                 {% if redirect_field_value %}

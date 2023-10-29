@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class='row ms-n3' style=''>
+    <div class='col-md-3 pe-5 col-sm-6 col-12'>
+        <div class='card shadow'>
+            <div class='card-header'>
+            <h4>{{user.username}} profile</h4>
+            </div>
+            <div class='card-body'>
+                <a class='text-decoration-none text-secondary ' href="{% url 'user:userprofile' %}">
+                    <h5 class='mt-1 mb-3 border-bottom'>profile </h5></a>
+                <a class='text-decoration-none text-secondary' href="{% url 'user:wishlist' %}">
+                    <h5 class='mt-3 mb-3 border-bottom'>Wishlist </h5></a>
+                <a class='text-decoration-none text-secondary' href="{% url 'user:orders' %}">
+                    <h5 class='mt-3 mb-3 border-bottom'>Orders </h5></a>
+                <a class='text-decoration-none text-secondary' href="{% url 'user:address' %}">
+                    <h5 class='mt-3 mb-3 border-bottom'>Address </h5></a>
+            </div>
+        </div>
+    </div>
+    <div class='col-sm-8  col-12'>
+        <div class='card'>
+            {% block page%}
+            {%endblock page%}
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

@@ -12,7 +12,7 @@ def home(request):
     return render(request, 'index.html')
 
 def category(request, cat_slug):
-    category =Category.objects.filter(slug=cat_slug)
+    category = Category.objects.filter(slug=cat_slug)
 #    return render(request, 'main/category.html', context={'category': category})
     if(category):
         products = Product.objects.filter(category__slug=cat_slug)
@@ -30,7 +30,11 @@ def product(request, cat_slug, id):
     if(category):
         product_info = Product.objects.filter(category__slug=cat_slug, id=id).first()
         amount = range(1, product_info.stock + 1) if product_info.stock > 0 else 0
-        context={'product': product_info, 'amount': amount}
+        wish = False
+        if request.user.is_authenticated:
+            if request.user.wishlist.products.filter(id=product_info.id):
+                wish = True
+        context={'product': product_info, 'amount': amount, 'wish': wish}
         return render(request, 'main/product.html', context)
     else:
         return redirect('main:home')
@@ -67,7 +71,7 @@ def update_product(request, id):
 
 def get_subcategory(request):
     '''
-        responsible for the addition of subcategory based on selected Category in new products page,
+        responsible for the addition of subcategories based on selected Category in product creation/editing page,
         handled by javascript to allow dynamic change in dropdown list of subcategories
     '''
     if request.method == "POST":

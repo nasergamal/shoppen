@@ -58,6 +58,7 @@ class Product(models.Model):
     description = models.TextField(max_length=4096, null=True)
     picture = models.ImageField(upload_to="img")
     instock = models.BooleanField(default=True)
+    active = models.BooleanField(default=True)
 
     def __str__(self):
         return self.name

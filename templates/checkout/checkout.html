@@ -1,7 +1,7 @@
 {% extends 'checkout/checkout_base.html '%}
 {% load static %}
 {% block title %}
-Choose address
+Checkout
 {% endblock %}
 {% block address %}
 {% if addressess %}
@@ -27,11 +27,11 @@ Choose address
     {%endfor%}
     <div class="">
         <a class="text-decoration-none btn btn-outline-secondary ms-4 " href="{% url 'checkout:checkout_new_address'%}?next={{request.path}}">Add new address</a>
-        <a class="text-decoration-none btn btn-outline-secondary float-end col-2" href="{% url 'checkout:checkout_new_address'%}?next={{request.path}}">Select</a>
+        {% comment %} <a class="text-decoration-none btn btn-outline-secondary float-end col-2" href="{% url 'checkout:checkout_new_address'%}?next={{request.path}}">Select</a> {% endcomment %}
     </div>
 </form>
 {% else%}
- <h4>No addressess saved <a class="text-decoration-none btn btn-outline-secondary items-align-start" href="{% url 'checkout:checkout_address'%}?next={{request.path}}">add new address</a>
+ <h4>No addressess saved <a class="text-decoration-none btn btn-outline-secondary items-align-start" href="{% url 'checkout:checkout_new_address'%}?next={{request.path}}">add new address</a>
 {%endif%}
 
 {% endblock address %}

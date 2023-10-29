@@ -1,0 +1,68 @@
+{%extends 'user/userbase.html'%}
+
+{%block title%}
+{{ orders.first.user.username }} Addresses
+{%endblock title%}
+
+{% block page%}
+<div class='card pt-2 ps-2 bg-light'>
+    <div class='row pt-2 ps-3 '><h3 class='text-center'> Addresses <h3> </div>
+        <div class='card shadow p-3 pb-0 m-3 '>
+            <div class='row border-bottom pt-2 pb-2 ms-2'>
+                {% if addresses %}
+                {% for address in addresses%}
+                <div class='card pt-3 mb-4'>
+                    <div class='text-secondary ms-3'>
+                        <div class='float-end me-3'>
+                            <a class="text-decoration-none btn btn-outline-secondary" href="{% url 'user:edit_address' address.id%}?next={{request.path}}">Edit</a>
+                            <a class="text-decoration-none btn btn-outline-danger" href="{% url 'user:remove_address' address.id%}?next={{request.path}}">Delete</a>
+                        </div>
+                        <div class=" text-start">
+                        
+                        <h6 class='mb-3'>Name: {{address.first_name}} {{address.last_name}} </h6>
+                        <p>Address: {{address.address}}</p>
+                        <p>Phone number:  {{address.phone_number}}</p>
+                        {% if address.phone_number2%}
+                        <p> Phone number 2: {{address.phone_number2}}</p>
+                        {%endif%}
+                        {% if address.additional_info%}
+                        <p>Extra info: {{address.additional_info}}</p>
+                        {%endif%}
+                            
+                    
+                        </div>
+                        
+                        
+                    </div>
+                </div>
+                {%endfor%}
+                <div class="">
+                    <a class="text-decoration-none btn btn-outline-secondary ms-4 " href="{% url 'user:new_address'%}">Add new address</a>
+                </div>
+            </form>
+            {% else%}
+             <h4>No addressess saved <a class="text-decoration-none btn btn-outline-secondary items-align-start" href="{% url 'user:new_address'%}">add new address</a>
+            {%endif%}
+            
+                {% comment %} <div class='col-lg-6 col-12 border '>
+                    <div class=''>
+                      <p>  {{address.first_name}} {{address.last_name}}</p>
+                    </div>
+                    <div class=''>
+                      <p>Phone number: {{address.phone_number}}</p>
+                    </div>
+                    {% if address.phone_number2%}
+                    <div class=''>
+                        <p> Phone number 2: {{address.phone_number2}}</p>
+                    </div>
+                    {%endif%}
+                    </p>Address: {{address.address}}</p>
+                    {% if address.additional_info%}
+                    <p>Extra info: {{address.additional_info}}</p>
+                    {%endif%}
+                </div> {% endcomment %}
+                {% comment %} {%endfor %} {% endcomment %}
+            </div>
+        </div>
+    </div>
+{% endblock page%}

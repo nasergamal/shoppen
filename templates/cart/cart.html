@@ -40,7 +40,7 @@ Cart
         {%endfor%}
         </div>
         {% if cart|length > 0 %}
-        <div class='card-footer row ms-0 me-0' >
+        <div class='card-footer row ms-0 me-0' id='cart-footer'>
             <div class='col-6 my-auto' id="total">
                 Subtotal: {{cart.total_price}}
             </div>

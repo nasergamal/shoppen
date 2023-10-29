@@ -13,6 +13,9 @@ from .models import Order, OrderItem
 def checkout(request):
     address = request.user.addresses.all()
     data = request.session.get('cart', {})
+    if len(data) <= 0:
+        messages.info(request, 'Cart is empty')
+        return HttpResponseRedirect(reverse('main:home'))
     id_list = data.keys() #[i for i in data.keys()]
     items = Product.objects.filter(id__in=id_list)
     for item in items:
@@ -41,8 +44,8 @@ def create_order(request):
         address = Address.objects.get(id=address_id)
         total = cart.total_price() + 10 # shipping fees. Change to a variable later
         order = Order.objects.create(user=request.user, shipping_address=address.address,
-                                     phone=address.phone_number,status=payment_method, total_price=total,
-                                     payment=str(payment_method))
+                                     phone=address.phone_number,status='Pending', total_price=total,
+                                     payment=payment_method)
         
         for item in items:
             OrderItem.objects.create(product=item, order=order, price=item.price ,quantity=cart.cart[str(item.id)])
@@ -55,11 +58,12 @@ def create_order(request):
         
         print(order)
         print(payment_method)
-        return render(request, 'checkout/order.html' )
+        messages.success(request, 'order created successfully')
+        return HttpResponseRedirect(reverse('user:order_details',kwargs={'id': order.id}))
     elif len(cart) <= 0:
-        messages.info(request, f'Cart is empty')
+        messages.info(request, 'Cart is empty')
     else:
-        messages.info(request, f'Something went wrong')
+        messages.info(request, 'Something went wrong')
     return HttpResponseRedirect(reverse('main:home'))
         
 

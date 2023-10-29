@@ -79,6 +79,39 @@ $(document).ready(function () {
   });
   });
 
+  $('.wishlist').on('click' ,function () {
+    const item = this;
+    console.log(this.dataset.url)
+    console.log(this.dataset.id)
+    $.ajax({
+      type: 'POST',
+      url: item.dataset.url,
+      headers: {"X-CSRFToken": csrf},
+      data: {
+        id: item.dataset.id
+      },
+      success: function (response) {
+        if (response.authenticated) {
+          console.log('here loggedin')
+          const sym = $('<span/>', {html:'&#9825'});
+          const sign = $('#wishlist-sign')
+          if (sign.html() === sym.html()) {
+            sign.html('&#9829;')
+          } else {
+            sign.html('&#9825;')
+          }
+        } else {
+          console.log('here not')
+          window.location.href=response.login +'?next=' + item.dataset.return
+        }
+      },
+      error: function(response) {
+        console.log('Error')
+        console.log(response)
+      }
+    });
+  });
+
 })
 function cart_content(res) {
     let word = res.amount + ' items';
@@ -87,22 +120,7 @@ function cart_content(res) {
         word = res.amount + ' item';
     } else if (res.amount  <= 0) {
         word = 'Cart is empty';
-        $('#total').remove();
+        $('#cart-footer').remove();
     }
     $('#item-quantity').text(word);
 }
-// function getCookie(name) {
-//     var cookieValue = null;
-//     if (document.cookie && document.cookie != '') {
-//         var cookies = document.cookie.split(';');
-//         for (var i = 0; i < cookies.length; i++) {
-//             var cookie = jQuery.trim(cookies[i]);
-//             // Does this cookie string begin with the name we want?
-//             if (cookie.substring(0, name.length + 1) == (name + '=')) {
-//                 cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-//                 break;
-//             }
-//         }
-//     }
-//     return cookieValue;
-// }

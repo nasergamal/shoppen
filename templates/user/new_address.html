@@ -1,0 +1,21 @@
+{% extends "user/userbase.html" %}
+
+{% load static %}
+{% block title %}
+Add address
+{% endblock %}
+{% block page%}
+    <div class=" mb-4  card shadow pt-3 mx-auto ps-0 pe-0 "> 
+        <div class='container fw-bold mt-1 border-bottom pb-2 mb-3 my-auto'>
+            <h5 class="text-center" >Address </h5>
+        </div> 
+        <div class="card-body text-center" id='address'>
+            <form class="new_item" method="POST" action="" class="needs-validation">
+                {% csrf_token %}
+                {% include "user/address_form.html" %}
+                <button class="btn btn-outline-secondary mb-4 mt-4 " type="submit">Add address</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock page%}
