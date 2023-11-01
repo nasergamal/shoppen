@@ -10,6 +10,7 @@ urlpatterns = [
     path('new/<uuid:id>/update', views.update_product, name='update_product'),
     path('subcat/', views.get_subcategory, name='get_sub'),
     path('cat/<slug:cat_slug>/', views.category, name='category'),
+    path('search/', views.search, name='search'),
     path('cat/<slug:cat_slug>/<uuid:id>', views.product, name='product'),
 ]
 

@@ -48,7 +48,7 @@
                                     </div>    
                                 {%endif%}
                                 <div class='mb-3 col-4'>
-                                    <button class="btn btn-outline-secondary w-25p-0 wishlist" data-return="{{request.path}}" data-url='{% url "user:toggle_item" %}' data-id="{{ product.id }}">
+                                    <button class="btn btn-outline-secondary  wishlist" data-return="{{request.path}}" data-url='{% url "user:toggle_item" %}' data-id="{{ product.id }}">
                                         <span style=' transform: scale(2, 2);' class='h-50 d-block' id='wishlist-sign'>{%if wish%}&#9829;{%else%}&#9825;{%endif%}</span>
                                     </button>
                                 </div>

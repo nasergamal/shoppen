@@ -2,25 +2,25 @@
 {% load static %}
 {% load query_transform %}
 {% block title%}
-{{ category.name }}
+{{ slug }}
 {% endblock %}
 
 
     {%block pageheader%} 
-    <h1 class="mb-5"><a class='text-decoration-none text-black' href="{% url 'main:category' category.slug %}"> {{ category.name  }}</a> {%if request.GET.subcategory%} / {{products.0.subcategory}} {%endif%}  </h1>
+    <h1 class="mb-5"><a class='text-decoration-none text-black' href="#"> {{ slug  }}</a></h1>
     {%endblock pageheader%}
     {% block filters%} 
     <ul class='ps-2  list-unstyled'>
         <div class='mb-3'> Brands 
             {%if 'brand' in request.GET%}
-            <a class='text-decoration-none text-secondary float-end' href="{% url 'main:category' category.slug %}?{% remove_query 'brand' %}">
+            <a class='text-decoration-none text-secondary float-end' href="{% url 'main:search' %}?{% remove_query 'brand' %}">
                 <button class="btn btn-outline-secondary py-1 px-2 float-end"> Clear</button></a>
             {%endif%}
         </div>
         {% for brand in brands %}
         
         <li class='my-2 ps-2'>
-            <a class='text-decoration-none text-secondary' href="{% url 'main:category' category.slug %}?{% query_add brand=brand.id %}">
+            <a class='text-decoration-none text-secondary' href="{% url 'main:search' %}?{% query_add brand=brand.id %}">
             {% comment %} <input type="checkbox" class='filter-checker' {%if brand.checked%} checked {%endif%} id="{{brand.id}}"/><label for="{{brand.id}}">{{brand.name}}</label> {% endcomment %}
             <button class="btn btn-outline-secondary rounded-circle px-2 py-1 border-0" id="{{brand.id}}">
             <span  style='font-family: none; font-size: 20px; line-height: 1;' >{%if brand.checked%}&#x2611;{%else%}&#x2610;{%endif%}</span> </button>
@@ -41,7 +41,7 @@
                     <button class="btn btn-outline-secondary py-1 px-2 float-end"> Filter 
                     </button>
                     {%if 'start' in request.GET%}
-                    <a class='text-decoration-none text-secondary float-end'  href="{% url 'main:category' category.slug %}?{% remove_query 'start' 'end' %}">
+                    <a class='text-decoration-none text-secondary float-end'  href="{% url 'main:search' %}?{% remove_query 'start' 'end' %}">
                         <button type="button" class="btn btn-outline-secondary py-1 px-2 float-end"> Clear</button>
                     </a>
                     {%endif%}
@@ -70,10 +70,10 @@
                     </a>
                 
                     <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="{% url 'main:category' category.slug %}?{% query sort='Newest' %}">Newest</a></li>
-                    <li><a class="dropdown-item" href="{% url 'main:category' category.slug %}?{% query sort='Oldest' %}">Oldest</a></li>
-                    <li><a class="dropdown-item" href="{% url 'main:category' category.slug %}?{% query sort='Lowest' %}">Price: low to High</a></li>
-                    <li><a class="dropdown-item" href="{% url 'main:category' category.slug %}?{% query sort='Highest' %}">Price: High to low</a></li>
+                    <li><a class="dropdown-item" href="{% url 'main:search'  %}?{% query sort='Newest' %}">Newest</a></li>
+                    <li><a class="dropdown-item" href="{% url 'main:search'  %}?{% query sort='Oldest' %}">Oldest</a></li>
+                    <li><a class="dropdown-item" href="{% url 'main:search'  %}?{% query sort='Lowest' %}">Price: low to High</a></li>
+                    <li><a class="dropdown-item" href="{% url 'main:search'  %}?{% query sort='Highest' %}">Price: High to low</a></li>
                     {% comment %} <li><a class="dropdown-item" href="#">Rating</a></li> {% endcomment %}
                     </ul>
                 {%endblock sort%}
@@ -100,7 +100,7 @@
         {% elif num == products.paginator.ELLIPSIS %}
             <span class="">{{ products.paginator.ELLIPSIS }}</span>
         {%else%}
-        <a href="{% url 'main:category' category.slug %}?{% query page=num%}" class="btn btn-secondary mx-2">
+        <a href="{% url 'main:search' %}?{% query page=num%}" class="btn btn-secondary mx-2">
             {{ num }}
         </a>
         {% endif %}

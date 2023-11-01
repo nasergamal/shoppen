@@ -58,6 +58,9 @@ class Product(models.Model):
     description = models.TextField(max_length=4096, null=True)
     picture = models.ImageField(upload_to="img")
     instock = models.BooleanField(default=True)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+    # ratings = GenericRelation(Rating, related_query_name='foos')
     active = models.BooleanField(default=True)
 
     def __str__(self):

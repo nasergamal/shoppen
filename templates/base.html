@@ -15,7 +15,7 @@
 </head>
 <body>
   <header>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom shadow">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom shadow">
       <div class="container-fluid">
         <a class="navbar-brand" href="{% url 'main:home' %}">Shoppen</a>
         <button class="navbar-toggler order-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -42,7 +42,7 @@
 
                           <ul class="dropdown-menu shadow ms-0 ">
                             {% for sub in item.subcategories.all %}
-                            <li><a class="dropdown-item" href="#">{{sub}}</a></li>
+                            <li><a class="dropdown-item" href="{% url 'main:category' item.slug %}?subcategory={{sub.id}}">{{sub}}</a></li>
                             {%endfor%}
                           </ul>
                     </li>
@@ -50,15 +50,18 @@
               </ul>
             </li>
           </ul>
-          <form class="d-flex">
-            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+          <form class="d-flex" Method='GET' action="{% url 'main:search' %}" class='needs-validation'>
+            <input class="form-control me-2" type="search" required placeholder="Search" name='query' aria-label="Search">
             <button class="btn btn-outline-secondary" type="submit">Search</button>
           </form>
         </div>
         <div id='login' class="col-8 col-lg-4 order-1 order-lg-2 float-right">
           <div class='position-relative'>
             <a class="text-decoration-none" type="button" role="button" href="{% url 'cart:view_cart' %}">
-              <img src="{% static 'images/cart.png' %}" width="45" height="45" alt="Responsive image">
+              {% comment %} <img src="{% static 'images/cart.png' %}" width="45" height="45" alt="Responsive image"> {% endcomment %}
+              <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45"fill="currentColor" class="bi bi-cart3 text-light" viewBox="0 0 14 18">
+                <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l.84 4.479 9.144-.459L13.89 4H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+              </svg>
               <span class="badge bg-danger text-white rounded-pill position-absolute px-0 opacity-75" id="cart" style="top:2px; right: 9px; width: 22px; height: 22px;">{{cart|length}}</span>
             </a>
           </div>
@@ -108,7 +111,7 @@
     {% block content %}
     {% endblock %}
     </main>
-    <footer class="bg-light text-center border-top text-lg-start">
+    <footer class="bg-dark text-center border-top text-white text-lg-start">
         <div class="text-center p-3">
           Copyright &copy; 2023 Shoppen
         </div>

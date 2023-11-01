@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+{%csrf_token%}
+<div class='container'>
+        {%block pageheader%} {%endblock pageheader%}
+        <div class="row mb-5">
+            <div class="col-lg-3 col-md-4 col-sm-12 card shadow h-100 bg-white pt-3 pb-4 mb-3 me-3">
+                {% block filters%} {% endblock filters %}
+            </div>
+            <div class="col-md-8 col-12 card  bg-light">
+                {% if products%}
+                <div class="dropdown pb-3 pt-2 pe-3">
+                        {%block sort%} {%endblock sort%}
+                </div>
+                <div class='row'>
+                    
+                    {% for item in products %}
+                    <div class="col-lg-4 col-6 mb-3">
+                        <div class="card h-100 ">
+                            <a href="{% url 'main:product' item.category.slug item.id %}" class="text-decoration-none card-body">
+                                <div class="">
+                                    <div class="category-image text-center" >
+                                        <img src="{{ item.picture.url }}" class="img-fluid w-100" style="max-width: 250px; object-fit: contain; max-height: 250px"/>
+                                    </div> 
+                                    <h4 class='text-center text-secondary fs-6 fs-md-4'>{{ item.name }}</h4>
+                                    <h5 class='text-center text-secondary'>${{ item.price }}</h5>   
+                                </div>
+                            </a>
+                            <div class="card-footer bg-white">
+                                {% if item.stock > 0 %}
+                                <button type="button" class="btn btn-secondary me-3 float-start add_button"  data-url='{% url "cart:add_item" %}' data-id="{{ item.id }}" data-qt="{{item.stock}}" class="add-cart">Add to cart</button>
+                                {%else%}
+                                
+                                <label class="badge bg-danger pt-2 pb-1 float-start ">
+                                    <h6>
+                                    <span class="">out of stock</span>
+                                    </h6>
+                                </label>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    {%else%}
+                    <h1 class='text-center my-auto text-secondary'>
+                    no item found
+                    </h1>
+                    {%endif%}
+                </div>
+            </div>
+    <div class='my-4 mx-auto text-center'>
+        {%block pagenum%} {%endblock pagenum%}
+    </div>
+        
+</div>
+<script type='module' defer src="{% static 'cart/script/cart.js' %}"></script> 
+{% endblock content %}

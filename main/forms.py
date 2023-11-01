@@ -12,7 +12,7 @@ from .models import Category, Product, SubCategory, Brand
 class new_product(forms.ModelForm):
     class Meta:
         model = Product
-        exclude = ('instock',)
+        exclude = ('instock','active')
 
     
     def __init__(self, *args, **kwargs):
