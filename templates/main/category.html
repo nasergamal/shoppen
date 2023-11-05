@@ -7,7 +7,8 @@
 
 
     {%block pageheader%} 
-    <h1 class="mb-5"><a class='text-decoration-none text-black' href="{% url 'main:category' category.slug %}"> {{ category.name  }}</a> {%if request.GET.subcategory%} / {{products.0.subcategory}} {%endif%}  </h1>
+    <h1 class="mb-5"><a class='text-decoration-none text-black' href="{% url 'main:category' category.slug %}"> {{ category.name  }}</a> </h1>
+    {% comment %} {%if request.GET.subcategory%} / {{products.0.subcategory}} {%endif%}  {% endcomment %}
     {%endblock pageheader%}
     {% block filters%} 
     <ul class='ps-2  list-unstyled'>
@@ -22,9 +23,27 @@
         <li class='my-2 ps-2'>
             <a class='text-decoration-none text-secondary' href="{% url 'main:category' category.slug %}?{% query_add brand=brand.id %}">
             {% comment %} <input type="checkbox" class='filter-checker' {%if brand.checked%} checked {%endif%} id="{{brand.id}}"/><label for="{{brand.id}}">{{brand.name}}</label> {% endcomment %}
-            <button class="btn btn-outline-secondary rounded-circle px-2 py-1 border-0" id="{{brand.id}}">
+            <button class="btn btn-outline-secondary rounded-circle px-2 py-1 border-0" id="brand_{{brand.id}}">
             <span  style='font-family: none; font-size: 20px; line-height: 1;' >{%if brand.checked%}&#x2611;{%else%}&#x2610;{%endif%}</span> </button>
-            <label for="{{brand.id}}">{{brand.name}}</label>
+            <label for="brand_{{brand.id}}">{{brand.name}}</label>
+            </a>
+        </li>
+        {%endfor%}
+    </ul>
+    <ul class='ps-2 list-unstyled'>
+        <div class='mb-3'> SubCategories
+            {%if 'subcategory' in request.GET%}
+            <a class='text-decoration-none text-secondary float-end' href="{% url 'main:category' category.slug %}?{% remove_query 'subcategory' %}">
+                <button class="btn btn-outline-secondary py-1 px-2 float-end"> Clear</button></a>
+            {%endif%}
+        </div>
+        {% for sub in subcategories %}
+        <li class='my-2 ps-2'>
+            <a class='text-decoration-none text-secondary' href="{% url 'main:category' category.slug %}?{% query_add subcategory=sub.id %}">
+            {% comment %} <input type="checkbox" class='filter-checker' {%if brand.checked%} checked {%endif%} id="{{brand.id}}"/><label for="{{brand.id}}">{{brand.name}}</label> {% endcomment %}
+            <button class="btn btn-outline-secondary rounded-circle px-2 py-1 border-0" id="sub_{{sub.id}}">
+            <span  style='font-family: none; font-size: 20px; line-height: 1;' >{%if sub.checked%}&#x2611;{%else%}&#x2610;{%endif%}</span> </button>
+            <label for="sub_{{sub.id}}">{{sub.name}}</label>
             </a>
         </li>
         {%endfor%}

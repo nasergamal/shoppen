@@ -7,6 +7,7 @@ from django.urls import reverse
 from checkout.forms import new_address
 from checkout.models import Order
 from main.models import Address, Product
+from vendor.models import Review
 
 @login_required
 def user_profile(request):
@@ -126,3 +127,7 @@ def remove_from_wishlist(request):
     return HttpResponseRedirect(reverse('user:address'))
 
     
+@login_required
+def reviews(request):
+    reviews = request.user.reviews.all()
+    return render(request, 'user/reviews.html', {'reviews':reviews})

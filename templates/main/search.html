@@ -29,6 +29,24 @@
         </li>
         {%endfor%}
     </ul>
+    <ul class='ps-2 list-unstyled'>
+        <div class='mb-3'> SubCategories
+            {%if 'subcategory' in request.GET%}
+            <a class='text-decoration-none text-secondary float-end' href="{% url 'main:search' %}?{% remove_query 'subcategory' %}">
+                <button class="btn btn-outline-secondary py-1 px-2 float-end"> Clear</button></a>
+            {%endif%}
+        </div>
+        {% for sub in subcategories %}
+        <li class='my-2 ps-2'>
+            <a class='text-decoration-none text-secondary' href="{% url 'main:search'  %}?{% query_add subcategory=sub.id %}">
+            {% comment %} <input type="checkbox" class='filter-checker' {%if brand.checked%} checked {%endif%} id="{{brand.id}}"/><label for="{{brand.id}}">{{brand.name}}</label> {% endcomment %}
+            <button class="btn btn-outline-secondary rounded-circle px-2 py-1 border-0" id="sub_{{sub.id}}">
+            <span  style='font-family: none; font-size: 20px; line-height: 1;' >{%if sub.checked%}&#x2611;{%else%}&#x2610;{%endif%}</span> </button>
+            <label for="sub_{{sub.id}}">{{sub.name}}</label>
+            </a>
+        </li>
+        {%endfor%}
+    </ul>
     
     {% comment %} <label for="customRange3" class="form-label">Example range</label>
     <div class="range">

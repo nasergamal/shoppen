@@ -6,7 +6,7 @@
     <div class="text-start">
         {{ field.label_tag }}
         <div class=" mt-2">
-        {% render_field field class="col-12 mt-2" %}
+        {% render_field field class="col-12 mt-2 form-control" %}
         </div>
         {% for error in field.errors %}
         <span class="text-danger mt-2 text-wrap">

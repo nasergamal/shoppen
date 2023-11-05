@@ -18,11 +18,6 @@
         <label class=" col-form-label">{{form.phone_number.label_tag}} *</label>
         <div class="">
         {{ form.phone_number }}
-        {% for error in form.address.errors %}
-        <span class="text-danger mt-2 text-wrap">
-        {{ error }}
-        </span>
-        {% endfor %}
         </div>
     </div>
     <div class="form-group col-md-6 row text-start">
@@ -30,6 +25,22 @@
         <div class="">
         {{ form.phone_number2 }}
         </div>
+    </div>
+</div>
+<div class="row ms-lg-5 ms-2">
+    <div class="form-group col-md-6 row text-start">
+        {% for error in form.phone_number.errors %}
+        <span class="text-danger mt-2 text-wrap">
+        {{ error }}
+        </span>
+        {% endfor %}
+    </div>
+    <div class="form-group col-md-6 row text-start">
+        {% for error in form.phone_number2.errors %}
+        <span class="text-danger mt-2 text-wrap">
+        {{ error }}
+        </span>
+        {% endfor %}
     </div>
 </div>
 <div class="row ms-lg-5 ms-2">
@@ -58,11 +69,6 @@
         </span>
         {% endfor %}
 </div>
-{% if form.errors%}
-<div class="ms-lg-5 ms-2 mt-2 text-danger">
-    {{ form.errors }}
-</div>
-{% endif %}
 {% if redirect_field_value %}
 <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
 {% endif %}

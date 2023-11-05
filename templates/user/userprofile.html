@@ -12,10 +12,28 @@
     <div class='card shadow p-3 pb-0 m-3 '>
         <h6 class='ms-1 mb-3'>Username: {{request.user.username}}</h6>
         <h6 class='ms-1 '>Email: {{request.user.email}}</h6>
-        <div class='row my-3 ms-5'>
-            
+        <div class='row  my-2'>
+        <h6> <a class='text-secondary ms-1' href={%url 'account_change_password'%}> Change password</a> <h6>
         </div>
     </div>
+    <div class='card shadow p-3 pb-0 m-3 '>
+        <h6 class='ms-1 mb-3'>Total Orders</h6>
+        {% if request.user.orders.count %}
+        <h4>{{request.user.orders.count}} Order</h4>
+        {%else %}
+        <h4>No Orders made</h4>
+        {%endif%}
+    </div>
+    <div class='card shadow p-3 pb-0 m-3 '>
+        <h6 class='ms-1 mb-3'>Products Reviews</h6>
+        {% if request.user.orders.count %}
+        <h4>{{request.user.reviews.count}} Reviews</h4>
+        {%else %}
+        <h4>No product reviewed</h4>
+        {%endif%}
+    </div>
+    </div>
+    
 </div>
 
 {%endblock page%}

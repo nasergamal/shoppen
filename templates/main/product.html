@@ -1,9 +1,12 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load query_transform %}
 {% block title%}
 {{ product.name }}
-{% endblock %}
-
+{% endblock title %}
+{%block head%} 
+<link href="{% static 'main/css/product.css' %}" rel="stylesheet">
+{%endblock head%}
 
 {% block content %}
 {%csrf_token%}
@@ -33,8 +36,12 @@
                                 <br>
                                 
                                 <div class='row'>
-                                {% if product.stock > 0 %}
-                                <label class="fw-bold">Amount</label>
+                                    <div>
+                                        <p> Brand:
+                                            <a class='text-secondary' href="{% url 'main:category' product.category.slug %}?{% query_add brand=product.brand.id %}">{{product.brand.name}}</a>
+                                    </div>
+                                    {% if product.stock > 0 %}
+                                    <label class="fw-bold">Amount</label>
                                     <div class='mb-3 col-3'>
                                         
                                         <select id="amount" class="form-select" aria-label="Default select example">
@@ -44,23 +51,91 @@
                                         </select>  
                                     </div>
                                     <div class='mb-3 col-5'>
-                                    <button type="button" class="btn btn-secondary me-3 col-12 add_button" data-url='{% url "cart:add_item" %}' data-id="{{ product.id }}" data-qt="{{product.stock}}" class="add-cart">Add to cart</button>
+                                        <button type="button" class="btn btn-secondary me-3 col-12 add_button" data-url='{% url "cart:add_item" %}' data-id="{{ product.id }}" data-qt="{{product.stock}}" class="add-cart">Add to cart</button>
                                     </div>    
-                                {%endif%}
-                                <div class='mb-3 col-4'>
-                                    <button class="btn btn-outline-secondary  wishlist" data-return="{{request.path}}" data-url='{% url "user:toggle_item" %}' data-id="{{ product.id }}">
-                                        <span style=' transform: scale(2, 2);' class='h-50 d-block' id='wishlist-sign'>{%if wish%}&#9829;{%else%}&#9825;{%endif%}</span>
-                                    </button>
+                                    {%endif%}
+                                    <div class='mb-3 col-4'>
+                                            <button class="btn btn-outline-secondary  wishlist" data-return="{{request.path}}" data-url='{% url "user:toggle_item" %}' data-id="{{ product.id }}">
+                                            <span style=' transform: scale(2, 2);' class='h-50 d-block' id='wishlist-sign'>{%if wish%}&#9829;{%else%}&#9825;{%endif%}</span>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-md-12">
+                            <div class="col-md-12">
                             <hr>
                             <h2>Description</h2>
-                            <p> {{product.description}}</p>
+                            <p> {{product.description|linebreaks}}</p>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <div class="card mt-3">
+                    <div class="col-md-12 mt-3 p-3">
+                        <h2>Reviews</h2>
+                        {% if request.user.is_authenticated %}
+                            <div class='card'>
+                                <h4 class='text-center pt-3'> Review product</h4>
+                            <form class='needs-validation' method='POST' action="{% url 'vendor:new_review' product.category.slug product.id %}">
+                                {%csrf_token%}
+                                <div class='row px-4 '>
+                                    <div class="txt-center col-12 ">
+                                        <div class="rating float-start" >
+                                            <input id="star5" name="rating" required type="radio" value="5" class="radio-btn hide" />
+                                            <label for="star5" >&#x2606;</label>
+                                            <input id="star4" name="rating" type="radio" value="4" class="radio-btn hide" />
+                                            <label for="star4" >&#x2606;</label>
+                                            <input id="star3" name="rating" type="radio" value="3" class="radio-btn hide" />
+                                            <label for="star3" >&#x2606;</label>
+                                            <input id="star2" name="rating" type="radio" value="2" class="radio-btn hide" />
+                                            <label for="star2" >&#x2606;</label>
+                                            <input id="star1" name="rating" type="radio" value="1" class="radio-btn hide" />
+                                            <label for="star1" >&#x2606;</label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group col-11">
+                                        <label for="rev-title" >Title</label>
+                                    <input id="rev-title" name="title" type="text" class="form-control" />
+                                        <label for="rev">Review</label>
+                                        <textarea class="form-control" name='text' minlength='5' required  id="rev"  maxlength ="500" rows="7"></textarea>
+                                    </div>
+                                    
+                                    
+                                    <div class='ps-4'>
+                                        <button class='btn btn-secondary my-3 '> Submit</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        {%endif%}
+                        
+                        {%if product.reviews%}
+                            {% for review in product.reviews.all%}
+                            <div class='card mt-3 p-3 bg-light'>
+                                <h4>User: {{review.user.username}}</h4>
+                                <h5 class='ps-3'>Reviewed on {{review.updated|date:"d M, Y"}}</h5>
+                                <div class='d-inline mb-2'>
+                                    <div class='stars ps-3 d-inline'>
+                                        {%for rate in review.star_rate%}
+                                        {% if rate == 1 %}&#x2605; {%else%} &#x2606;{%endif%}
+                                        {%endfor%} 
+                                    </div>
+                                    <h6 class='d-inline'>{{review.title}}</h6>
+                                </div>
+                                <div class='ps-3'>
+                                    <p>
+                                    {{review.text|linebreaks}}
+                                    </p>
+                                </div>
+                            </div>
+                            {%endfor%}
+                        {%else%}
+                            <h2 class='text-center'> No reviews</h2>
+                        {%endif%}
+                        </div>
+
+            
+        
             </div>       
             
         </div>

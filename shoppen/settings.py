@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'cart',
     'checkout',
     'user',
+    'vendor',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -180,4 +181,3 @@ DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL')
 #SOCIALACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 SOCIALACCOUNT_LOGIN_ON_GET = True
 CART_SESSION = 'cart'
-

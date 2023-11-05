@@ -12,8 +12,9 @@
   integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
   crossorigin="anonymous"></script>
   <title>{% block title %}{% endblock title%}</title>
+  {%block head%} {%endblock head%}
 </head>
-<body>
+<body class=''>
   <header>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom shadow">
       <div class="container-fluid">
@@ -24,13 +25,10 @@
         <div class="collapse navbar-collapse order-3 order-lg-1" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#">Home</a>
+              <a class="nav-link active" aria-current="page" href="{% url 'main:home' %}">Home</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Link</a>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+            <li class="nav-item dropdown ">
+              <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
                 Categories
               </a>
               <ul class="dropdown-menu w-100" aria-labelledby="navbarDropdown" style='min-width: 11rem;'>
@@ -49,6 +47,9 @@
                 {% endfor %}
               </ul>
             </li>
+            <li class="nav-item">
+              <a class="nav-link disabled" href="#">About</a>
+            </li>
           </ul>
           <form class="d-flex" Method='GET' action="{% url 'main:search' %}" class='needs-validation'>
             <input class="form-control me-2" type="search" required placeholder="Search" name='query' aria-label="Search">
@@ -66,7 +67,7 @@
             </a>
           </div>
           
-          <div class="d-block">
+          <div class="d-block ms-2">
           {% if user.is_authenticated %}
           <div class="btn-group ">
             <a class="btn text-secondary dropdown-toggle pt-0 pb-0" type="button" id="defaultDropdown" data-bs-toggle="dropdown" data-bs-auto-close="true" aria-expanded="false">

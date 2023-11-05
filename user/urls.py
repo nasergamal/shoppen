@@ -14,4 +14,5 @@ urlpatterns = [
     path('address/new', views.add_address, name='new_address'), 
     path('address/edit/<int:id>', views.edit_address, name='edit_address'), 
     path('addresse/remove/<int:id>', views.remove_address, name='remove_address'), 
+    path('reviews/', views.reviews, name='reviews')
 ]

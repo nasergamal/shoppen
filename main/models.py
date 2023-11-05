@@ -60,8 +60,27 @@ class Product(models.Model):
     instock = models.BooleanField(default=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
-    # ratings = GenericRelation(Rating, related_query_name='foos')
     active = models.BooleanField(default=True)
 
     def __str__(self):
         return self.name
+    
+    def total_review(self):
+        rate = sum([rev.rating for rev in self.reviews.all()])
+        if not rate:
+            return None
+        rate = rate /self.reviews.all().count()
+        r = 0
+        rating = [1 for i in range(int(rate))]
+        if .3 < rate % 1 < .7:
+            rating.append(2)
+        else:
+            r = round(rate % 1 )
+            rating.append(r) if r else None
+            
+        for i in range(len(rating), 5):
+            rating.append(0)
+        return rating
+              
+    def rev_count(self):
+        return (self.reviews.all().count())

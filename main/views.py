@@ -34,8 +34,6 @@ def search(request,):
         messages.info(request, 'No match found')
         return render(request, 'index.html')
     context['slug'] = name
-
-
     # print(time.time() - t0, 'here')
     return render(request, 'main/search.html', context)
     
@@ -45,11 +43,9 @@ def filtering(request, cat_slug=None, name=None):
     br = request.GET.get('brand', None)
     sort = request.GET.get('sort', 'Newest')
     queries = {}
-    if 'subcategory' in request.GET:
-        'filter by subcategory if required and determine get products prices'
-        queries['subcategory'] = request.GET.get('subcategory')
     if cat_slug:
         queries['category__slug'] = cat_slug
+        queries['instock'] = True
     elif 'category' in request.GET:
         queries['category'] = request.GET.get('category')
     if name:
@@ -66,24 +62,33 @@ def filtering(request, cat_slug=None, name=None):
     if price[0] < price[2] or price[1] > price[3]:
         'filter products by price'
         products = products.filter(Q(price__gte=price[2]) & Q(price__lte=price[3]))
+    subcategories = SubCategory.objects.filter(id__in=products.values('subcategory').distinct())
     brands = Brand.objects.filter(id__in=products.values('brand').distinct())
+    queries = {}
+    if 'subcategory' in request.GET:
+        'filter by subcategory if required and determine get products prices'
+        sub = request.GET.get('subcategory')
+        queries['subcategory__in'] = sub.split('_')
+        for subcategory in subcategories:
+            setattr(subcategory, 'checked', True if str(subcategory.id) in queries['subcategory__in'] else False)
     if br:
         'handle brands in Get parameters and filter'
-        br=br.split('_')
-        products = products.filter(brand__in=br)
+        queries['brand__in'] = br.split('_')
         for brand in brands:
-            setattr(brand, 'checked', True if str(brand.id) in br else False)
+            setattr(brand, 'checked', True if str(brand.id) in queries['brand__in'] else False)
+    products = products.filter(**queries)
+    if products is not None:
         price = products.values('price').order_by('price')
         price = [int(price.first()['price']), int(price.last()['price'])]
         price.extend([int(request.GET.get('start', price[0])), int(request.GET.get('end', price[1]))])
-      
+    
     page_number =  request.GET.get('page', 1)
     paginator = Paginator(products, 20) #add more products and edit numbers per page
     products = paginator.get_page(page_number)
     products.elided = paginator.get_elided_page_range(number=page_number, 
-                                           on_each_side=3,
+                                           on_each_side=1,
                                            on_ends=1)
-    return {'products': products, "brands": brands, "price": price, 'sort': order[sort][1]}    
+    return {'products': products, "brands": brands, "price": price, 'sort': order[sort][1], 'subcategories': subcategories}    
 
 def product(request, cat_slug, id):
     category =Category.objects.filter(slug=cat_slug)
