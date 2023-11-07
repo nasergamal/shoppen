@@ -19,9 +19,9 @@
     <div class='card shadow p-3 pb-0 m-3 '>
         <h6 class='ms-1 mb-3'>Total Orders</h6>
         {% if request.user.orders.count %}
-        <h4>{{request.user.orders.count}} Order</h4>
+        <h4>{{request.user.orders.count}} Orders</h4>
         {%else %}
-        <h4>No Orders made</h4>
+        <h4>No Orders were made</h4>
         {%endif%}
     </div>
     <div class='card shadow p-3 pb-0 m-3 '>

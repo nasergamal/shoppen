@@ -49,7 +49,7 @@ class Brand(models.Model):
 
 class Product(models.Model):
     id = models.UUIDField(primary_key = True, default = uuid.uuid4, editable = False)
-    name = models.CharField(max_length=128)
+    name = models.CharField(max_length=248)
     price = models.DecimalField(max_digits=7, decimal_places=2)
     stock = models.IntegerField(default=0)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='products')

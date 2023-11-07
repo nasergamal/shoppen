@@ -1,0 +1,23 @@
+{% extends 'account/base_acc.html' %}
+{% load account %}
+{% block title %}Email verification{% endblock %}
+{% block  acc %}
+    <h3> Confirm E-mail Address </h3>
+    {% if confirmation %}
+        {% if can_confirm %}
+        <p class="p-4">
+        Please confirm that <a href="mailto:{{ confirmation.email_address.email }}">{{ confirmation.email_address.email }}</a> is an e-mail address for user {{ confirmation.email_address.user }}.
+        </p>
+        <form method="POST" action="{% url 'account_confirm_email' confirmation.key %}" class="">
+            {% include 'account/_render_form.html' %}
+            <button class="btn btn-outline-secondary mb-4 mt-2" type="submit">Verify</button>
+        </form>
+        {%else%}
+        <p  class="p-4">
+            Unable to confirm {{ confirmation.email_address.email  }} because it is already confirmed by a different account.
+        </p>
+    {% endif %}
+{% else %}
+<p class="p-4">This e-mail confirmation link expired or is invalid. Please <a href="{% url 'account_email' %}">issue a new e-mail confirmation request.</a></p>
+{% endif %}
+{% endblock %}

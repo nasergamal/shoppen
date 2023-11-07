@@ -15,12 +15,20 @@ Checkout
                 name="address"
                 value="{{address.id}}"
                 required>
-            <div class=" text-start">
-            
-            <h6 class=''>{{address.first_name}} {{address.last_name}} </h6>
-            <p>{{address.address}}</p>
-            <p>{{address.phone_number}}</p>
-            </div>
+                <div class=" text-start">
+                        
+                    <h6 class='mb-3'>Name: {{address.first_name}} {{address.last_name}} </h6>
+                    <p>Address: {{address.address}}</p>
+                    <p>Phone number:  {{address.phone_number}}</p>
+                    {% if address.phone_number2%}
+                    <p> Phone number 2: {{address.phone_number2}}</p>
+                    {%endif%}
+                    {% if address.additional_info%}
+                    <p>Extra info: {{address.additional_info}}</p>
+                    {%endif%}
+                        
+                
+                </div>
             
         </div>
     </div>

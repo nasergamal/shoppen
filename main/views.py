@@ -25,7 +25,7 @@ def category(request, cat_slug):
     # print(time.time() - t0, 'here')
     return render(request, 'main/category.html', context)
 
-def search(request,):
+def search(request):
     '''handle product search requests'''
     # t0 = time.time()
     name = request.GET.get('query')
@@ -77,7 +77,7 @@ def filtering(request, cat_slug=None, name=None):
         for brand in brands:
             setattr(brand, 'checked', True if str(brand.id) in queries['brand__in'] else False)
     products = products.filter(**queries)
-    if products is not None:
+    if products:
         price = products.values('price').order_by('price')
         price = [int(price.first()['price']), int(price.last()['price'])]
         price.extend([int(request.GET.get('start', price[0])), int(request.GET.get('end', price[1]))])

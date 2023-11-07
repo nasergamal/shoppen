@@ -5,9 +5,10 @@
 
 
 {% block page%}
+{%if orders%}
 {% for order in orders %}
 <div class='card pt-2 ps-2 bg-light'>
-    <div class='row pt-2 ps-3'>
+    <div class='row pt-2 ps-md-3'>
         <h5 class='col-6'>Order number: {{order.id}}</h5>
         <p class="col-3 ">status: {{order.status}}</p>
         <a class='btn btn-outline-secondary col-2 pt-2 btn-sm text-middle' href="{% url 'user:order_details' order.id %}"> Details</a>
@@ -15,23 +16,36 @@
     <div class='card shadow p-3 pb-0 m-3 '>
         <h6 class='ms-1'>Items: </h6>
         {% for item in order.order_items.all%}
-        <div class='row border-bottom pt-2 pb-2 ms-2'>
+        <div class='row border-bottom pt-2 pb-2 ms-md-2'>
             <div class='col-5'>
                 {{item.product.name}}
+            </div>
+            <div class='col-4'>
+                Quantity: {{item.quantity}}
             </div>
             <div class='col-3'>
                 Unit price: {{item.price}}
             </div>
-            <div class='col-3'>
-                Quantity: {{item.quantity}}
-            </div>
+            
         </div>
         {%endfor %}
-        <div class='row my-3 ms-5'>
+        <div class='row border-bottom pt-2 pb-2 ms-md-2'>
+            <div class='col-9'>
+                Delivery fees
+            </div>
+            <div class='col-3'>
+                $10.00
+            </div>
+            
+        </div>
+        <div class='row my-3 ms-md-5'>
             <h5 class='col-6'>Total: {{order.total}}</h5>
         <h5 class="col-6">payment: {{order.payment}}</h5>
         </div>
     </div>
 </div>
 {%endfor%}
+{%else%}
+<h2>No Orders were made<h2>
+{%endif%}
 {%endblock page%}

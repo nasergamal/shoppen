@@ -10,30 +10,34 @@
 
 {% block page%}
 <div>
-<h2 class='ps-3 py-3 '>Reviews</h2>
-{% for review in reviews %}
-<div class='card  p-3 mb-3 mx-3 bg-white'>
-    
-    <div class='row pt-2 ps-3'>
-        <h5 class='col-12'>Product: <a class='text-secondary' href="{% url 'main:product' review.product.category.slug review.product.id %}">{{review.product.name}}</a></h5>
-        {% comment %} <p class="col-3 "> tatus}}</p>
-        <a class='btn btn-outline-secondary col-2 pt-2 btn-sm text-middle' href="{% url 'user:order_details' order.id %}"> Details</a> {% endcomment %}
-    </div>
-    <div class='card mt-3 p-3 bg-light'>
-        <h5 class='ps-3'>Reviewed on {{review.updated|date:"d M, Y"}}</h5>
-        <div class='stars ps-3'>
-            {%for rate in review.star_rate%}
-            {% if rate == 1 %}&#x2605; {%else%} &#x2606;{%endif%}
-            {%endfor%}
+    {%if reviews%}
+    <h2 class='ps-3 py-3 '>Reviews</h2>
+    {% for review in reviews %}
+    <div class='card  p-3 mb-3 mx-3 bg-white'>
+        
+        <div class='row pt-2 ps-3'>
+            <h5 class='col-12'>Product: <a class='text-secondary' href="{% url 'main:product' review.product.category.slug review.product.id %}">{{review.product.name}}</a></h5>
+            {% comment %} <p class="col-3 "> tatus}}</p>
+            <a class='btn btn-outline-secondary col-2 pt-2 btn-sm text-middle' href="{% url 'user:order_details' order.id %}"> Details</a> {% endcomment %}
         </div>
-        <div class='ps-3'>
-            <p>
-            {{review.text}}
-            </p>
+        <div class='card mt-3 p-3 bg-light'>
+            <h5 class='ps-3'>Reviewed on {{review.updated|date:"d M, Y"}}</h5>
+            <div class='stars ps-3'>
+                {%for rate in review.star_rate%}
+                {% if rate == 1 %}&#x2605; {%else%} &#x2606;{%endif%}
+                {%endfor%}
+            </div>
+            <div class='ps-3'>
+                <p>
+                {{review.text}}
+                </p>
+            </div>
         </div>
-    </div>
 
-</div>
-{%endfor%}
+    </div>
+    {%endfor%}
+    {%else%}
+    <h2>No reviews were made<h2>
+    {%endif%}
 </div>
 {%endblock page%}

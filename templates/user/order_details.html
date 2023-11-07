@@ -9,37 +9,35 @@
         <h5 class='col-6'>Order number: {{order.id}}</h5>
         <p class="col-3 ">status: {{order.status}}</p>
         {% if order.status in 'Pending,Confirmed,Shipping'%}
-        <a class='btn btn-outline-secondary col-2 pt-2 btn-sm text-middle' href='{% url 'user:order_cancel' order.id %}'> Cancel</a>
+        <a class='btn btn-outline-secondary col-2 pt-2 px-0 px-md-2 btn-sm my-auto ' href='{% url 'user:order_cancel' order.id %}'> Cancel</a>
         {%endif%}
     </div>
     <h6 class='ps-3'>Ordered on {{order.created|date:"d M, Y"}}</h6>
-    <div class='card shadow p-3 pb-0 m-3 '>
+    <div class='card shadow p-md-3 pb-0 m-md-3 '>
         <h6 class='ms-1'>Items: </h6>
         {% for item in order.order_items.all%}
         <div class="card-body py-0  ">
             <div class='row border-bottom' id="{{ item.product.id }}">
-                <div class="col-3 pb-1 pt-2">
+                <div class="col-lg-3 col-12 pb-1 pt-2">
                     <div class="category-image">
                         <img src="{{ item.product.picture.url }}" class="w-100"/>
                     </div> 
                 </div>
-                <div class="col-9 border-start pb-2 pt-2">
+                <div class="col-lg-9 col-12 border pb-2 pt-2">
                     <a href="{% url 'main:product' item.product.category.slug item.product.id %}" class="text-decoration-none"><h4 class='text-center text-secondary'>{{ item.product.name }}</h4></a>
                     <h5 class='text-center text-secondary'>${{ item.product.price }}</h5>
                     <div class='row pt-2 pb-2 ms-2'>
                         <div class='col-5'>
                             {{item.product.name}}
                         </div>
+                        <div class='col-4'>
+                            Quantity: {{item.quantity}}
+                        </div>
                         <div class='col-3'>
                             Unit price: {{item.price}}
                         </div>
-                        <div class='col-3'>
-                            Quantity: {{item.quantity}}
-                        </div>
                     </div>
-                    <div class='row pt-2 pb-2 ms-2'>
-
-                    </div>
+                    
                     <div class="d-inline-block mt-md-4 float-end">
                         
                     </div>
@@ -47,6 +45,16 @@
             </div>
         </div>
         {%endfor %}
+        <div class="card-body py-0 ">
+            <div class='row border'>
+                <div class="col-3 py-2 ">
+                    Delivery fees
+                </div>
+                <div class="col-8 border-start py-2  text-end">
+                    $10.00
+                </div>
+            </div>
+        </div>
         <div class='row my-3 ms-5'>
             <h5 class='col-6'>Total: {{order.total}}</h5>
         <h5 class="col-6">payment: {{order.payment}}</h5>
