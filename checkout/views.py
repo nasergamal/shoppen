@@ -11,6 +11,7 @@ from .models import Order, OrderItem
 # Create your views here.
 @login_required
 def checkout(request):
+    '''Render HTML page for checkout'''
     address = request.user.addresses.all()
     data = request.session.get('cart', {})
     if len(data) <= 0:
@@ -25,6 +26,7 @@ def checkout(request):
 
 @login_required
 def create_order(request):
+    '''Create a new row in Order table and related rows in Orderitems table based on users cart'''
     cart = CartSession(request)
     if request.method == "POST" and len(cart) > 0:
         address_id = request.POST.get('address')
@@ -55,9 +57,6 @@ def create_order(request):
             item.save()
         cart.empty(request)
         request.user.cart.cart_items.all().delete()
-        
-        print(order)
-        print(payment_method)
         messages.success(request, 'order created successfully')
         return HttpResponseRedirect(reverse('user:order_details',kwargs={'id': order.id}))
     elif len(cart) <= 0:
@@ -69,6 +68,7 @@ def create_order(request):
 
 @login_required
 def checkout_add_address(request):
+    '''Address addition from checkout page'''
     form = new_address()
     if request.method == "POST":
         form = new_address(request.POST)
@@ -84,6 +84,7 @@ def checkout_add_address(request):
 
 @login_required
 def checkout_edit_address(request, id):
+    '''Address edit from checkout page'''
     address = get_object_or_404(Address, id=id)
     form = new_address(instance=address)
     if request.method == "POST":
@@ -96,9 +97,3 @@ def checkout_edit_address(request, id):
     else:
         print(form.errors)
     return render(request, 'checkout/checkout_new_address.html', {'form': form})
-
-
-# @login_required
-# def select_payment(request, id):
-#     address = get_object_or_404(Address, id=id)
-    

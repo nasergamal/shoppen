@@ -5,13 +5,6 @@ from main.models import Product
 
 class Cart(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='cart')
-    
-    # @property
-    # def total(self):
-    #     '''return total price for all ordered items'''
-    #     items = self.items.all()
-    #     total = sum([item.product.price for item in items])
-    #     return total
 
     @property
     def item_count(self):

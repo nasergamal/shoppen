@@ -4,40 +4,34 @@ from django.contrib import messages
 from django.db.models import Q
 from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
-# import time
-
 from .models import Product, Category, SubCategory, Brand
 from .forms import new_product
 
-# Create your views here.
 
 def home(request):
-    # category = Category.objects.all()
+    '''Render Homapage'''
     return render(request, 'index.html')
 
-# create class to allow search with same parameters 
+
 def category(request, cat_slug):
-    '''category view, deal with category's products filtering and ordering'''
-    # t0 = time.time()
+    '''Render category's products page'''
     category = get_object_or_404(Category, slug=cat_slug)
     context = filtering(request, cat_slug=cat_slug)
     context['category'] = category
-    # print(time.time() - t0, 'here')
     return render(request, 'main/category.html', context)
 
 def search(request):
     '''handle product search requests'''
-    # t0 = time.time()
     name = request.GET.get('query')
     context = filtering(request, name=name)
     if not context:
         messages.info(request, 'No match found')
         return render(request, 'index.html')
     context['slug'] = name
-    # print(time.time() - t0, 'here')
     return render(request, 'main/search.html', context)
     
 def filtering(request, cat_slug=None, name=None):
+    '''handle products filtering and ordering'''
     order = {"Newest": ['-updated', 'Newest'], "Oldest": ['updated', 'Oldest'],
              "Lowest": ['price', 'Price: low to High'], "Highest": ['-price', 'Price: High to low']}
     br = request.GET.get('brand', None)
@@ -83,7 +77,7 @@ def filtering(request, cat_slug=None, name=None):
         price.extend([int(request.GET.get('start', price[0])), int(request.GET.get('end', price[1]))])
     
     page_number =  request.GET.get('page', 1)
-    paginator = Paginator(products, 20) #add more products and edit numbers per page
+    paginator = Paginator(products, 20)
     products = paginator.get_page(page_number)
     products.elided = paginator.get_elided_page_range(number=page_number, 
                                            on_each_side=1,
@@ -91,8 +85,8 @@ def filtering(request, cat_slug=None, name=None):
     return {'products': products, "brands": brands, "price": price, 'sort': order[sort][1], 'subcategories': subcategories}    
 
 def product(request, cat_slug, id):
-    category =Category.objects.filter(slug=cat_slug)
-#    return render(request, 'main/category.html', context={'category': category})
+    '''Render product page'''
+    category = Category.objects.filter(slug=cat_slug)
     if(category):
         product_info = Product.objects.filter(category__slug=cat_slug, id=id).first()
         amount = range(1, product_info.stock + 1) if product_info.stock > 0 else 0

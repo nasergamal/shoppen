@@ -9,18 +9,18 @@
 {%endblock head%}
 
 {% block page%}
-<div>
+
     {%if reviews%}
-    <h2 class='ps-3 py-3 '>Reviews</h2>
+    
     {% for review in reviews %}
-    <div class='card  p-3 mb-3 mx-3 bg-white'>
+    <div class='card  p-3 bg-light'>
         
         <div class='row pt-2 ps-3'>
             <h5 class='col-12'>Product: <a class='text-secondary' href="{% url 'main:product' review.product.category.slug review.product.id %}">{{review.product.name}}</a></h5>
             {% comment %} <p class="col-3 "> tatus}}</p>
             <a class='btn btn-outline-secondary col-2 pt-2 btn-sm text-middle' href="{% url 'user:order_details' order.id %}"> Details</a> {% endcomment %}
         </div>
-        <div class='card mt-3 p-3 bg-light'>
+        <div class='card mt-3 p-3 bg-white'>
             <h5 class='ps-3'>Reviewed on {{review.updated|date:"d M, Y"}}</h5>
             <div class='stars ps-3'>
                 {%for rate in review.star_rate%}
@@ -37,7 +37,12 @@
     </div>
     {%endfor%}
     {%else%}
-    <h2>No reviews were made<h2>
+    <div class='card pt-2 ps-2 bg-light'>
+        <div class='row pt-2 mx-auto my-5'>
+            <h2>No reviews<h2>
+        </div>
+    </div>
+    
     {%endif%}
-</div>
+
 {%endblock page%}

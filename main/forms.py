@@ -1,15 +1,9 @@
 from django import forms
 from .models import Category, Product, SubCategory, Brand
-# from allauth.account.forms import SignupForm
 
-# class register(SignupForm):
-#     name = forms.CharField(max_length=30, label='First Name')
-    
-#     def signup(self, request, user):
-#         user.first_name = self.cleaned_data['first_name']
-#         user.save()
-#         return user
+
 class new_product(forms.ModelForm):
+    '''handle new products addition through HTML Form'''
     class Meta:
         model = Product
         exclude = ('instock','active')
@@ -45,14 +39,4 @@ class new_product(forms.ModelForm):
             return brand
         else:
             raise ValueError
-        
-# class new_product(forms.Form):
-#   name = forms.CharField(max_length=128, label='Product name')
-#   price = forms.DecimalField(max_digits=7, decimal_places=2, label='Price')
-#   stock = forms.IntegerField(initial=0)
-#   category = forms.ModelChoiceField(queryset=Category.objects.all(), widget=forms.TextInput(attrs={'id': 'category'}))
-#   subcategory = forms.ModelChoiceField(queryset= ,widget=forms.TextInput(attrs={'id': 'sub_category'}))
-#   brand = forms.CharField(max_length=128, label='Brand')
-#   description = forms.CharField(max_length=4096, label='Description')
-#   picture = forms.ImageField(upload_to="img")
     

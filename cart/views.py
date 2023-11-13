@@ -5,14 +5,21 @@ from main.models import Product
 # Create your views here.
 
 def view_cart(request):
-        data = request.session.get('cart', {})
-        id_list = data.keys()
-        items = Product.objects.filter(id__in=id_list)
-        for item in items:
-            setattr(item, 'amount', data[str(item.id)])
-        return render(request, 'cart/cart.html', {"items": items})
+    '''Return an html view of the cart'''
+    data = request.session.get('cart', {})
+    id_list = data.keys()
+    items = Product.objects.filter(id__in=id_list)
+    for item in items:
+        setattr(item, 'amount', data[str(item.id)])
+    return render(request, 'cart/cart.html', {"items": items})
 
 def add_item(request):
+    '''
+    Add/increase cart items and return Json to javascript that conatains:
+        1: current cart content's count
+        2: total price
+        3: quantity of added items
+    '''
     cart = CartSession(request)
     if request.method == "POST":
         if request.POST.get('sign') == 'not_shoppen':
@@ -25,7 +32,12 @@ def add_item(request):
     return JsonResponse({'result': 'fail'})
 
 def decrease_item(request):
-    '''decrease (or remove if 0) item from cart'''
+    '''
+    decrease (or remove if 0) item from cart and return Json to javascript that conatains:
+        1: current cart content's count
+        2: total price
+        3: quantity of added items
+    '''
     cart = CartSession(request)
     if request.method == "POST":
         if request.POST.get('sign') == 'not_shoppen':
@@ -37,6 +49,11 @@ def decrease_item(request):
     return JsonResponse({'result': 'fail'})
 
 def remove_item(request):
+    '''
+    Remove item from cart and return Json to javascript that conatains:
+        1: current cart content's count
+        2: total price
+    '''
     cart = CartSession(request)
     if request.method == "POST":
         if request.POST.get('sign') == 'not_shoppen':

@@ -2,7 +2,7 @@ from django.db import models
 from main.models import Product
 from django.contrib.auth.models import User
 
-# Create your models here.
+
 class Order(models.Model):
     delivery_status = [
             ('Pending', "Pending"), ('Confirmed', "Confirmed"),

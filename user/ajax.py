@@ -3,6 +3,7 @@ from django.http import HttpResponse, JsonResponse
 from django.urls import reverse
 import json
 def ajax_login_required(view):
+    '''Login check and redirection for javascript ajax requests'''
     @wraps(view)
     def wrapper(request, *args, **kwargs):
         if request.user.is_authenticated:

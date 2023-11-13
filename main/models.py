@@ -3,10 +3,6 @@ from django.contrib.auth.models import User
 import uuid
 from phonenumber_field.modelfields import PhoneNumberField
 
-# Create your models here.
-class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    is_vendor = models.BooleanField(default=False)
     
 class Address(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='addresses')

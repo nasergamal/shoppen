@@ -4,6 +4,7 @@ from .models import Order
 from phonenumber_field.widgets import PhoneNumberPrefixWidget
 
 class new_address(forms.ModelForm):
+    '''Handle address data to database through HTML form'''
     first_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Enter your First name'}))
     last_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Enter your Lirst name'}))
     phone_number = forms.CharField(widget=PhoneNumberPrefixWidget(country_choices=[

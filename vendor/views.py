@@ -6,6 +6,7 @@ from .models import Review
 
 @login_required
 def new_review(request, slug, id):
+    '''Add new review'''
     if request.method == "POST":
         rating = request.POST.get('rating')
         text = request.POST.get('text')

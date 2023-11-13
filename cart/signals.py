@@ -7,6 +7,7 @@ from .models import Cart, CartItem
 
 @receiver(user_logged_in)
 def cart_login(request, **kwargs):
+    '''Update user's Cart database and session content on login'''
     session_cart = request.session._session_cache.get('cart')
     user_cart = request.user.cart
     cart_items_update(user_cart,session_cart)
@@ -18,6 +19,7 @@ def cart_login(request, **kwargs):
 
 @receiver(user_logged_out)
 def cart_logout(request, **kwargs):
+    '''Update user's Cart database content before logout'''
     session_cart = request.session['cart']
     user_cart = request.user.cart
     user_cart.cart_items.exclude(product_id__in=session_cart.keys()).delete()
