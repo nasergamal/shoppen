@@ -64,3 +64,7 @@ To get started with Shoppen, follow these steps:
 
 7. **Open Shoppen in your browser:**
    Visit [http://localhost:8000](http://localhost:8000) to see Shoppen in action.
+
+## License
+
+This project is licensed under the terms of the MIT license.
